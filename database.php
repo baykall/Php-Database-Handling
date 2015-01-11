@@ -252,6 +252,69 @@ class DataBase{
         return $id;
     }   
 }
+
+//additional functions for easy handling
+function Delete($table,$columns,$values){
+  global $db;
+  return $db->Delete($table,$columns,$values);  
+}
+function DeleteSmart($table,$values){
+  global $db;
+  return $db->DeleteSmart($table,1,$values);  
+}
+function Get($table,$col,$val,$retColumn,$type = 'Single'){
+  global $db;
+  return $db->Get($table,$col,$val,$retColumn,$type);
+}
+function GetFromPID($table,$pid,$element){
+  global $db;
+  return $db->GetSingle($table,array('PID'),array($pid),$element);  
+}
+function GetSetting($element){
+  $integer = GetSmart('SiteSettings',$element,'IntegerValue');
+  $string = GetSmart('SiteSettings',$element,'StringValue');
+  if($integer>-1)
+    return $integer;
+  else
+    return $string;
+}
+function GetStatistic($element){
+  $integer = GetSmart('Statistics',$element,'Value');
+  return $integer;
+}
+function GetSmart($table,$val,$retColumn,$type = 'Single'){ 
+  global $db;
+  return $db->GetSmart($table,1,$val,$retColumn,$type);
+}
+function GetAllAll($table,$retColumn){ 
+  global $db;
+  return $db->GetAllAll($table,$retColumn);
+}
+function GetNofAllRows($table){
+  global $db;
+  return $db->GetNofRows($table);  
+}
+function GetNofRows($table,$col,$val){
+  $ret = Get($table,$col,$val,'PID','All');
+  return count($ret);
+}
+function GetNofRowsSmart($table,$val){
+  $ret = GetSmart($table,$val,'PID','All');
+  return count($ret);
+}
+function GetAllTables(){
+  global $db;
+  return $db->GetAllTables();   
+}
+function InsertIntoSmart($table,$values){
+  global $db;
+  return $db->InsertIntoSmart($table,1,$values);  
+}
+
+function UpdateSmart($table,$values,$UpdateColumn,$UpdateValue){
+  global $db;
+  return $db->UpdateSmart($table,1,$values,$UpdateColumn,$UpdateValue);
+}
 ?>
 
 
